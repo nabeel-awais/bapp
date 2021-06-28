@@ -5,31 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const CustomerResultsList = ({ results }) => {
-  const [data1, setData1] = useState(results);
-  const deleteItemById = (id) => {
-    setData1(prevTodos => {
-      return prevTodos.filter(todo => todo.id != id)
-      }
-    );
-    alert('Request is Accepted');
-  }
-  const deleteItemById2 = (id) => {
-    setData1(prevTodos => {
-      return prevTodos.filter(todo => todo.id != id)
-      }
-    );
-    alert('Request is Rejected');
-  }
+  console.log(results);
+
   const navigation = useNavigation();
   return (
     <View style={styles.conatainer}>
       <FlatList
         showsVerticalScrollIndicator
-        data={data1}
-        keyExtractor={data1 => data1.id + 'key'}
+        data={results}
+        keyExtractor={results => results.id + 'key'}
         renderItem={({ item }) => {
           return (<TouchableOpacity style={styles.touchStyle}>          
-              <CustomerResultsDetail result={item} deleteItemById={deleteItemById} deleteItemById2={deleteItemById2} />
+              <CustomerResultsDetail result={item} />
             </TouchableOpacity>  
           );
         }}

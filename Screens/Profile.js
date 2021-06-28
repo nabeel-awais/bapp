@@ -88,6 +88,7 @@ const ProfileScreen = () => {
 
         const savedata=async ()=>{
             const uID=auth().currentUser.uid;
+            const email=auth().currentUser.email;
             if(adress==''||description==''||shopName==''||image=='https://api.adorable.io/avatars/80/abott@adorable.png'||image==''){Alert.alert(
                 "No data found",
                 "please fill all fields",
@@ -104,7 +105,7 @@ const ProfileScreen = () => {
               const pathToFile = image;
             await reference.putFile(pathToFile);
             setURL(await storage().ref(image).getDownloadURL());
-            firestore().collection('Users').doc(uID).set({name:shopName,adress:adress,description:description,url:url}).then(()=>{console.log('Data saved');Alert.alert('data saved')})
+            firestore().collection('Users').doc(uID).set({name:shopName,adress:adress,description:description,url:url,barberEmail:email}).then(()=>{console.log('Data saved');Alert.alert('data saved')})
             
             }}
 
