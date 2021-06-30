@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     View,
     Text,
@@ -15,7 +15,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { utils } from '@react-native-firebase/app';
 
 const ProfileScreen = () => {
     const [shopName, setShopName] = useState("");
@@ -74,8 +73,8 @@ const ProfileScreen = () => {
         }
       else{
         Alert.alert(
-          "no data found",
-          "no data found",
+          "No data found",
+          "No data found Please fill and save your profile",
           [
             {
               text: "Cancel",
@@ -87,8 +86,8 @@ const ProfileScreen = () => {
       }
 
         const savedata=async ()=>{
-            const uID=auth().currentUser.uid;
-            const email=auth().currentUser.email;
+            const uID=await auth().currentUser.uid;
+            const email=await auth().currentUser.email;
             if(adress==''||description==''||shopName==''||image=='https://api.adorable.io/avatars/80/abott@adorable.png'||image==''){Alert.alert(
                 "No data found",
                 "please fill all fields",
@@ -106,8 +105,8 @@ const ProfileScreen = () => {
             await reference.putFile(pathToFile);
             setURL(await storage().ref(image).getDownloadURL());
             firestore().collection('Users').doc(uID).set({name:shopName,adress:adress,description:description,url:url,barberEmail:email}).then(()=>{console.log('Data saved');Alert.alert('data saved')})
-            
             }}
+
 
     return (
 
@@ -201,9 +200,9 @@ const ProfileScreen = () => {
                                 setDescription(text)
                             }}
                             placeholder='Enter description'
-                            maxLength={50}
+                            maxLength={200}
                             multiline={true}
-                            numberOfLines={5}
+                            numberOfLines={9}
                             defaultValue={description}
                             placeholderTextColor='#CCCCCC'
                         />
